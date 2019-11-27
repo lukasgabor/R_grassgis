@@ -9,16 +9,24 @@ library(rgrass7)
 use_sp()
 
 # ----- Specify path to GRASS GIS installation -----
-gisBase <- "C:/Program Files (x86)/GRASS GIS 7.8"
-grassExecutable <- "C:/Program Files (x86)/GRASS GIS 7.8/grass78.bat"
-
+grassExecutable <- "grass"
+gisBase <- "/usr/lib/grass74"
+# you need to change the above to where GRASS GIS is on your computer
+# on Windows, it will look something like:
+# grassExecutable <- "C:/Program Files (x86)/GRASS GIS 7.8/grass78.bat"
+# gisBase <- "C:/Program Files (x86)/GRASS GIS 7.8"
 
 # ----- Specify path to data -----
-dem <-  "C:/Users/gabor/OneDrive/Plocha/R_grassgis/dem.tif"
-gisDbase <- "C:/Users/gabor/grassdata"
-locationPath <- "C:/Users/gabor/grassdata/sdm"
+dem <-  "dem.tif"
+gisDbase <- "grassdata"
+locationPath <- "grassdata/sdm"
 location <- "sdm"
 mapset <- "PERMANENT"
+# you need to change the above to where the data is and should be on your computer
+# on Windows, it will look something like:
+# dem <-  "C:/Users/gabor/OneDrive/Plocha/R_grassgis/dem.tif"
+# gisDbase <- "C:/Users/gabor/grassdata"
+# locationPath <- "C:/Users/gabor/grassdata/sdm"
 
 
 # ----- Create GRASS location -----
