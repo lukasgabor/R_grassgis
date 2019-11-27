@@ -4,6 +4,7 @@
 source("install.R")
 
 # load rgrass7 package
+library(sp)
 library(rgrass7)
 # tell rgrass7 to use sp not stars
 use_sp()
