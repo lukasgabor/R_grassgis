@@ -1,7 +1,6 @@
-createGRASSlocation <- function (grassExecutable, readProjection, EPSG, locationPath) {
+createGRASSlocation <- function (grassExecutable, readProjectionFrom, EPSG, locationPath) {
   if (missing(EPSG)){
-    readProjection = readProjection
-    system(paste("\"", grassExecutable, "\"", " -c ", "\"", readProjection, "\"", " ", "\"", locationPath, "\"", " -e ", sep = ""))
+    system(paste("\"", grassExecutable, "\"", " -c ", "\"", readProjectionFrom, "\"", " ", "\"", locationPath, "\"", " -e ", sep = ""))
   }
   else{
     system(paste("\"", grassExecutable, "\"", " -c ", "EPSG:", " ", "\"", locationPath, "\"", " -e ", sep = ""))
