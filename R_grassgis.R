@@ -1,7 +1,8 @@
 # Import and prepare data in GRASS GIS and model species distribution in R
 
-# install packages -> run for the first time only
-source("install.R")
+# install packages
+# run for the first time only if you don't have the packages already
+# source("install.R")
 
 # load rgrass7 package
 library(sp)
