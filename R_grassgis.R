@@ -5,6 +5,8 @@ source("install.R")
 
 # load rgrass7 package
 library(rgrass7)
+# tell rgrass7 to use sp not stars
+use_sp()
 
 # ----- Specify path to GRASS GIS installation -----
 gisBase <- "C:/Program Files (x86)/GRASS GIS 7.8"
