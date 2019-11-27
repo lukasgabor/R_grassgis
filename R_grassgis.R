@@ -21,8 +21,8 @@ gisBase <- "/usr/lib/grass74"
 # ----- Specify path to data -----
 dem <-  "dem.tif"
 gisDbase <- "grassdata"
-locationPath <- "grassdata/sdm"
-location <- "sdm"
+locationPath <- "grassdata/sdm3"
+location <- "sdm3"
 mapset <- "PERMANENT"
 # you need to change the above to where the data is and should be on your computer
 # on Windows, it will look something like:
@@ -56,8 +56,11 @@ initGRASS(gisBase = gisBase,
           override = TRUE)
 
 
+
 # ----- Import and create rasters for modeling -----
-execGRASS("r.in.gdal", input=dem, output="dem") # Import digital elevation model (DEM) to GRASS GIS
+execGRASS("r.external", input=dem, output="dem") # Import digital elevation model (DEM) to GRASS GIS
+
+execGRASS("r.external.out", directory=getwd(), format="GTiff", extension=".tif") # 
 
 dem <- readRAST("dem", cat=FALSE) # load DEM to R
 
@@ -68,10 +71,6 @@ execGRASS("r.topidx", input = "dem", output = "twi") # calculate topographic wet
 execGRASS("r.slope.aspect", elevation="dem", slope="slope", aspect="aspect") # calculate slope, aspect
 
 execGRASS("r.info", map="aspect") # show raster info
-
-execGRASS("r.out.gdal", input="twi", output="twi.tif", format="GTiff") # export data to GeoTIFF
-execGRASS("r.out.gdal", input="slope", output="slope.tif", format="GTiff")
-execGRASS("r.out.gdal", input="aspect", output="aspect.tif", format="GTiff")
 
 # ----- Load environmental data to R -----
 library(raster)
