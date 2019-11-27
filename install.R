@@ -1,6 +1,7 @@
 install.packages("raster")
 install.packages("dismo")
-install.packages("gdal")
+install.packages("rgdal")
 install.packages("sp")
+install.packages("sf")
 install.packages("usdm")
 install.packages("rgrass7")
