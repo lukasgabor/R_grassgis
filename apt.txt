@@ -1,3 +1,5 @@
 gdal-bin
+libgdal-dev
 grass
+grass-dev
 libudunits2-dev
