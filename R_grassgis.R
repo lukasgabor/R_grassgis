@@ -44,7 +44,7 @@ createGRASSlocation(grassExecutable = grassExecutable,
 # createGRASSlocation(grassExecutable = grassExecutable,
 #                     EPSG = 4326,
 #                     database = database,
-                      location = location)
+#                     location = location)
 
 
 # ----- Initialisation of GRASS -----
