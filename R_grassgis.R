@@ -17,19 +17,17 @@ source("createGRASSlocation.R")
 grassExecutable <- "grass"
 # You need to change the above to where GRASS GIS is on your computer.
 # On Windows, it will look something like:
-# grassExecutable <- "C:/Program Files (x86)/GRASS GIS 7.8/grass78.bat"
+# grassExecutable <- "C:/Program Files/GRASS GIS 7.8/grass78.bat"
 
 # ----- Specify path to data -----
 dem <-  "dem.tif"
-gisDbase <- "grassdata"
-locationPath <- "grassdata/sdm"
+database <- "grassdata"
 location <- "sdm"
 mapset <- "PERMANENT"
 # you need to change the above to where the data is and should be on your computer
 # on Windows, it will look something like:
-# dem <-  "C:/Users/gabor/OneDrive/Plocha/R_grassgis/dem.tif"
-# gisDbase <- "C:/Users/gabor/grassdata"
-# locationPath <- "C:/Users/gabor/grassdata/sdm"
+# dem <-  "C:/Users/gabor/OneDrive/Desktop/R_grassgis/dem.tif"
+# database <- "C:/Users/gabor/grassdata"
 
 
 # ----- Create GRASS location -----
@@ -39,17 +37,19 @@ mapset <- "PERMANENT"
 # A) create a new GRASS location based on georeferenced file
 createGRASSlocation(grassExecutable = grassExecutable,
                     readProjectionFrom = dem,
-                    locationPath = locationPath)
+                    database = database,
+                    location = location)
 
 # B) create a new GRASS location with EPSG code 4326
 # createGRASSlocation(grassExecutable = grassExecutable,
 #                     EPSG = 4326,
-#                     locationPath = locationPath)
+#                     database = database,
+                      location = location)
 
 
 # ----- Initialisation of GRASS -----
 initGRASS(gisBase = getGRASSpath(grassExecutable),
-          gisDbase = gisDbase,
+          gisDbase = database,
           location = location,
           mapset = mapset,
           override = TRUE)
