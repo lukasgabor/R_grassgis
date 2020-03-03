@@ -10,13 +10,14 @@ library(rgrass7)
 # tell rgrass7 to use sp not stars
 use_sp()
 
+# load additional helper GRASS-related functions
+source("createGRASSlocation.R")
+
 # ----- Specify path to GRASS GIS installation -----
 grassExecutable <- "grass"
-gisBase <- "/usr/lib/grass74"
-# you need to change the above to where GRASS GIS is on your computer
-# on Windows, it will look something like:
+# You need to change the above to where GRASS GIS is on your computer.
+# On Windows, it will look something like:
 # grassExecutable <- "C:/Program Files (x86)/GRASS GIS 7.8/grass78.bat"
-# gisBase <- "C:/Program Files (x86)/GRASS GIS 7.8"
 
 # ----- Specify path to data -----
 dem <-  "dem.tif"
@@ -32,8 +33,6 @@ mapset <- "PERMANENT"
 
 
 # ----- Create GRASS location -----
-# load createGRASSlocation function
-source("createGRASSlocation.R")
 
 # pick one option (here, we are using the file we have):
 
@@ -49,7 +48,7 @@ createGRASSlocation(grassExecutable = grassExecutable,
 
 
 # ----- Initialisation of GRASS -----
-initGRASS(gisBase = gisBase, 
+initGRASS(gisBase = getGRASSpath(grassExecutable),
           gisDbase = gisDbase,
           location = location,
           mapset = mapset,
