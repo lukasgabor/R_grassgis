@@ -10,47 +10,46 @@ library(rgrass7)
 # tell rgrass7 to use sp not stars
 use_sp()
 
+# load additional helper GRASS-related functions
+source("createGRASSlocation.R")
+
 # ----- Specify path to GRASS GIS installation -----
 grassExecutable <- "grass"
-gisBase <- "/usr/lib/grass74"
-# you need to change the above to where GRASS GIS is on your computer
-# on Windows, it will look something like:
-# grassExecutable <- "C:/Program Files (x86)/GRASS GIS 7.8/grass78.bat"
-# gisBase <- "C:/Program Files (x86)/GRASS GIS 7.8"
+# You need to change the above to where GRASS GIS is on your computer.
+# On Windows, it will look something like:
+# grassExecutable <- "C:/Program Files/GRASS GIS 7.8/grass78.bat"
 
 # ----- Specify path to data -----
 dem <-  "dem.tif"
-gisDbase <- "grassdata"
-locationPath <- "grassdata/sdm3"
-location <- "sdm3"
+database <- "grassdata"
+location <- "sdm"
 mapset <- "PERMANENT"
 # you need to change the above to where the data is and should be on your computer
 # on Windows, it will look something like:
-# dem <-  "C:/Users/gabor/OneDrive/Plocha/R_grassgis/dem.tif"
-# gisDbase <- "C:/Users/gabor/grassdata"
-# locationPath <- "C:/Users/gabor/grassdata/sdm"
+# dem <-  "C:/Users/gabor/OneDrive/Desktop/R_grassgis/dem.tif"
+# database <- "C:/Users/gabor/grassdata"
 
 
 # ----- Create GRASS location -----
-# load createGRASSlocation function
-source("createGRASSlocation.R")
 
 # pick one option (here, we are using the file we have):
 
 # A) create a new GRASS location based on georeferenced file
 createGRASSlocation(grassExecutable = grassExecutable,
                     readProjectionFrom = dem,
-                    locationPath = locationPath)
+                    database = database,
+                    location = location)
 
 # B) create a new GRASS location with EPSG code 4326
 # createGRASSlocation(grassExecutable = grassExecutable,
 #                     EPSG = 4326,
-#                     locationPath = locationPath)
+#                     database = database,
+                      location = location)
 
 
 # ----- Initialisation of GRASS -----
-initGRASS(gisBase = gisBase, 
-          gisDbase = gisDbase,
+initGRASS(gisBase = getGRASSpath(grassExecutable),
+          gisDbase = database,
           location = location,
           mapset = mapset,
           override = TRUE)
