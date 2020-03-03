@@ -22,7 +22,7 @@ grassExecutable <- "grass"
 # ----- Specify path to data -----
 dem <-  "dem.tif"
 database <- "grassdata"
-location <- "sdm"
+location <- "sdm_linked"
 mapset <- "PERMANENT"
 # you need to change the above to where the data is and should be on your computer
 # on Windows, it will look something like:
