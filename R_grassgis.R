@@ -4,56 +4,32 @@
 # run for the first time only if you don't have the packages already
 # source("install.R")
 
-# load rgrass7 package
+# load rgrass package
 library(sp)
-library(rgrass7)
-# tell rgrass7 to use sp not stars
-use_sp()
-
-# load additional helper GRASS-related functions
-source("createGRASSlocation.R")
+library(rgrass)
 
 # ----- Specify path to GRASS GIS installation -----
 grassExecutable <- "grass"
 # You need to change the above to where GRASS GIS is on your computer.
 # On Windows, it will look something like:
-# grassExecutable <- "C:/Program Files/GRASS GIS 7.8/grass78.bat"
+# grassExecutable <- "C:/Program Files/GRASS GIS 8.2/grass82.bat"
 
 # ----- Specify path to data -----
 dem <-  "dem.tif"
-database <- "grassdata"
-location <- "sdm"
-mapset <- "PERMANENT"
 # you need to change the above to where the data is and should be on your computer
 # on Windows, it will look something like:
 # dem <-  "C:/Users/gabor/OneDrive/Desktop/R_grassgis/dem.tif"
-# database <- "C:/Users/gabor/grassdata"
-
 
 # ----- Create GRASS location -----
 
-# pick one option (here, we are using the file we have):
+library(terra)
 
-# A) create a new GRASS location based on georeferenced file
-createGRASSlocation(grassExecutable = grassExecutable,
-                    readProjectionFrom = dem,
-                    database = database,
-                    location = location)
-
-# B) create a new GRASS location with EPSG code 4326
-# createGRASSlocation(grassExecutable = grassExecutable,
-#                     EPSG = 4326,
-#                     database = database,
-#                     location = location)
-
+r <- rast(dem)
 
 # ----- Initialisation of GRASS -----
 initGRASS(gisBase = getGRASSpath(grassExecutable),
-          gisDbase = database,
-          location = location,
-          mapset = mapset,
+          SG = r,
           override = TRUE)
-
 
 
 # ----- Import and create rasters for modeling -----
@@ -61,8 +37,8 @@ execGRASS("r.external", input=dem, output="dem") # Import digital elevation mode
 
 execGRASS("r.external.out", directory=getwd(), format="GTiff", extension=".tif") # 
 
-dem <- readRAST("dem", cat=FALSE) # load DEM to R
-
+# Load the DEM to R from GRASS GIS and plot it
+dem <- read_RAST("dem", cat=FALSE) # load DEM to R
 plot(dem, main = "Digital Elevation Model", col=terrain.colors(50)) # plot DEM
 
 execGRASS("r.topidx", input = "dem", output = "twi") # calculate topographic wetness index (TWI)
@@ -73,8 +49,8 @@ execGRASS("r.info", map="aspect") # show raster info
 
 # ----- Load environmental data to R -----
 library(raster)
-# A) Directly from GRASS GIS (wrong option)
-twi2 <- raster(readRAST("twi", cat=FALSE))
+# A) Directly from GRASS GIS (suboptimal choice here)
+twi2 <- raster(read_RAST("twi", cat=FALSE))
 
 # B) Load previously saved GeoTIFF files
 twi <- raster("twi.tif")
@@ -95,7 +71,7 @@ plot(preds)
 v <- vifstep(preds);v
 preds <- exclude (preds, v)
 
-sp <- shapefile("virtualis") # Load species data
+sp <- shapefile("virtualis.shp") # Load species data
 
 bg <- randomPoints(preds, 1000, p = sp) # create background points
 
