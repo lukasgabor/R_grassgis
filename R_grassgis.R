@@ -4,6 +4,8 @@
 # run for the first time only if you don't have the packages already
 # source("install.R")
 
+source("helpers.R")
+
 # load rgrass package
 library(sp)
 library(rgrass)
@@ -65,7 +67,9 @@ library(usdm)
 library(dismo)
 
 preds <- stack(slope, twi, aspect, dem) # stack environmental layers
-plot(preds)
+suppressWarnings({
+    plot(preds)
+})
 
 # VIF - Variance Inflation Factor; check the collinearity problem in environmental variables
 v <- vifstep(preds);v
@@ -88,4 +92,5 @@ bioclim.model <- bioclim(preds, train)
 prediction <- predict(preds, bioclim.model)
 
 par(mfrow = c(1, 1))
+
 plot(prediction, main='Predicted Probability - Virtualis') # plot prediction
