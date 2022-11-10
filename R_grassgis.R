@@ -9,6 +9,8 @@ source("helpers.R")
 # load rgrass package
 library(sp)
 library(rgrass)
+library(terra)
+library(raster)
 
 # ----- Specify path to GRASS GIS installation -----
 grassExecutable <- "grass"
@@ -22,24 +24,23 @@ dem <-  "dem.tif"
 # on Windows, it will look something like:
 # dem <-  "C:/Users/gabor/OneDrive/Desktop/R_grassgis/dem.tif"
 
-# ----- Create GRASS location -----
-
-library(terra)
-
-r <- rast(dem)
-
 # ----- Initialisation of GRASS -----
+reference_raster <- rast(dem)
+
 initGRASS(gisBase = getGRASSpath(grassExecutable),
-          SG = r,
+          home = tempdir(),
+          SG = reference_raster,
           override = TRUE)
 
-
 # ----- Import and create rasters for modeling -----
-execGRASS("r.external", input=dem, output="dem") # Import digital elevation model (DEM) to GRASS GIS
+# Link external file - digital elevation model (DEM) - to GRASS GIS
+execGRASS("r.external", input=dem, output="dem")
 
+# Tell GRASS GIS to store all raster data as GeoTIFFs
+# in the current directory (instead of using its native format).
 execGRASS("r.external.out", directory=getwd(), format="GTiff", extension=".tif") # 
 
-# Load the DEM to R from GRASS GIS and plot it
+# Load the DEM to R from GRASS GIS and plot it (just as an example)
 dem <- read_RAST("dem", cat=FALSE) # load DEM to R
 plot(dem, main = "Digital Elevation Model", col=terrain.colors(50)) # plot DEM
 
@@ -50,7 +51,7 @@ execGRASS("r.slope.aspect", elevation="dem", slope="slope", aspect="aspect") # c
 execGRASS("r.info", map="aspect") # show raster info
 
 # ----- Load environmental data to R -----
-library(raster)
+
 # A) Directly from GRASS GIS (suboptimal choice here)
 twi2 <- raster(read_RAST("twi", cat=FALSE))
 
